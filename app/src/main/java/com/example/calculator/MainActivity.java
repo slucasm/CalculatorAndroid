@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -11,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView screen;
     Button btn_0, btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_punt,btn_clear,btn_igual,btn_suma,btn_resta,btn_mult,btn_div,btn_cos,btn_sin,btn_tan;
-    RadioButton btn_rad,btn_deg;
-    boolean suma,resta,multiplicacio,divisio,sin,cos,tan,rad,deg = false;
+    CheckBox btn_rad,btn_deg;
+    boolean suma,resta,multiplicacio,divisio,sin,cos,tan,rad = false;
+    boolean deg = true;
     float reserva, actual;
 
     @Override
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         btn_cos = (Button)findViewById(R.id.btn_cos);
         btn_tan = (Button)findViewById(R.id.btn_tan);
 
-        btn_rad = (RadioButton)findViewById(R.id.btn_rad);
-        btn_deg = (RadioButton)findViewById(R.id.btn_deg);
+        btn_rad = (CheckBox)findViewById(R.id.check_rad);
+        btn_deg = (CheckBox)findViewById(R.id.check_deg);
 
 
         btn_0.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!screen.getText().equals("")) {
                     sin = true;
-                    screen.setText("");
+                    reserva = Float.parseFloat(screen.getText() + "");
+                    screen.setText("sin("+screen.getText()+ ")");
                 }
             }
         });
@@ -167,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!screen.getText().equals("")) {
                     cos = true;
-                    screen.setText("");
+                    reserva = Float.parseFloat(screen.getText() + "");
+                    screen.setText("cos("+screen.getText()+ ")");
                 }
             }
         });
@@ -176,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!screen.getText().equals("")) {
                     tan = true;
-                    screen.setText("");
+                    reserva = Float.parseFloat(screen.getText() + "");
+                    screen.setText("tan("+screen.getText()+")");
                 }
             }
         });
@@ -188,22 +194,30 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        btn_rad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rad = true;
-                deg = false;
-                btn_deg.setSelected(false);
-            }
-        });
         btn_deg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rad = false;
-                deg = true;
-                btn_rad.setSelected(false);
+                if (btn_deg.isChecked())
+                {
+                    deg = true;
+                    rad = false;
+                    btn_rad.setChecked(false);
+                }
             }
         });
+
+        btn_rad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btn_rad.isChecked())
+                {
+                    deg = false;
+                    rad = true;
+                    btn_deg.setChecked(false);
+                }
+            }
+        });
+
 
 
 
@@ -232,32 +246,32 @@ public class MainActivity extends AppCompatActivity {
                     divisio = false;
                 }
                 else if (sin == true) {
-                    actual = Float.parseFloat(screen.getText() + "");
+                    //actual = Float.parseFloat(screen.getText() + "");
                     if (deg == true) {
-                        screen.setText(String.valueOf(Math.sin(actual)));
+                        screen.setText(String.valueOf(Math.sin(Math.toRadians(reserva))));
                     }
                     else {
-                        screen.setText(String.valueOf(Math.sin(actual*Math.PI/180)));
+                        screen.setText(String.valueOf(Math.sin(reserva)));
                     }
                         sin = false;
                 }
                 else if (cos == true) {
-                    actual = Float.parseFloat(screen.getText() + "");
+                    //actual = Float.parseFloat(screen.getText() + "");
                     if (deg == true) {
-                        screen.setText(String.valueOf(Math.cos(actual)));
+                        screen.setText(String.valueOf(Math.cos(Math.toRadians(reserva))));
                     }
                     else {
-                        screen.setText(String.valueOf(Math.cos(actual*Math.PI/180)));
+                        screen.setText(String.valueOf(Math.cos(reserva)));
                     }
                     cos = false;
                 }
                 else if (tan == true) {
-                    actual = Float.parseFloat(screen.getText() + "");
+                    //actual = Float.parseFloat(screen.getText() + "");
                     if (deg == true) {
-                        screen.setText(String.valueOf(Math.tan(actual)));
+                        screen.setText(String.valueOf(Math.tan(Math.toRadians(reserva))));
                     }
                     else {
-                        screen.setText(String.valueOf(Math.tan(actual*Math.PI/180)));
+                        screen.setText(String.valueOf(Math.tan(reserva)));
                     }
                     tan = false;
                 }
